@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package cz.cvut.felk.ida.simplyobo.syntax;
+package cz.cvut.felk.ida.simplyobo.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,25 +29,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Line-by-line OBO format parser
+ * Line-by-line OBO format parser.
  * 
  * <p>Reads basic syntax (stanzas and tag-value pairs) from an OBO file.</p>
  *
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public class OBOSyntaxParser {
+public class LineByLineParser {
 
-    private OBOSyntaxListener sink;
+    private LineByLineListener sink;
 
-    public OBOSyntaxParser(OBOSyntaxListener sink) {
+    public LineByLineParser(LineByLineListener sink) {
         setListener(sink);
     }
     
-    public void setListener(OBOSyntaxListener sink) {
+    public void setListener(LineByLineListener sink) {
         this.sink = sink;       
     }
     
-    public OBOSyntaxListener getListener() {
+    public LineByLineListener getListener() {
         return sink;
     }
     

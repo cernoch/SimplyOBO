@@ -1,5 +1,3 @@
-package cz.cvut.felk.ida.simplyobo.syntax;
-
 /*
  * Copyright (c) 2011 Radomír Černoch (radomir.cernoch at gmail.com)
  *
@@ -21,27 +19,58 @@ package cz.cvut.felk.ida.simplyobo.syntax;
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
+package cz.cvut.felk.ida.simplyobo.parser;
 
 /**
- * Callback for line-by-line parsing of an OBO file
+ * Encapsulates a tag-value pair in an OBO file.
  *
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public interface OBOSyntaxListener {
+public class TagValuePair {
     
-    /**
-     * Parser starts reading a stanza section
-     * 
-     * @param stanza name of the stanza
-     */
-    public void onStanza(String stanza);
+    private final String tag;
+    private final String val;
+
+    public TagValuePair(String tag, String val) {
+        this.tag = tag;
+        this.val = val;
+    }
+
+    public String tag() {
+        return tag;
+    }
+
+    public String val() {
+        return val;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        final TagValuePair other = (TagValuePair) obj;
+        if (this.tag == null ? other.tag != null
+                             : !this.tag.equals(other.tag))
+            return false;
+
+        if (this.val == null ? other.val != null
+                             : !this.val.equals(other.val))
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + (this.tag != null ? this.tag.hashCode() : 0);
+        hash = 53 * hash + (this.val != null ? this.val.hashCode() : 0);
+        return hash;
+    }
     
-    /**
-     * Parser met a tag-value pair in the file
-     * 
-     * @param tag unescaped tag name
-     * @param value raw value, stripped of the comment
-     */
-    public void onTagValue(String tag, String value);
-    
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

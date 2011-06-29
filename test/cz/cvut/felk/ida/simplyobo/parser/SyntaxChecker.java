@@ -19,9 +19,8 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package cz.cvut.felk.ida.simplyobo.syntax;
+package cz.cvut.felk.ida.simplyobo.parser;
 
-import cz.cvut.felk.ida.simplyobo.stanza.TagVal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -38,21 +37,21 @@ import java.util.Set;
  *
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public class SyntaxChecker implements OBOSyntaxListener {
+public class SyntaxChecker implements LineByLineListener {
     
-    private Set<TagVal> header = new HashSet<TagVal>();
-    private Map<String, Set<TagVal>> stanzas
-            = new HashMap<String, Set<TagVal>>();
+    private Set<TagValuePair> header = new HashSet<TagValuePair>();
+    private Map<String, Set<TagValuePair>> stanzas
+            = new HashMap<String, Set<TagValuePair>>();
     
     public void expectHeader(String tag, String val) {
-        header.add(new TagVal(tag, val));
+        header.add(new TagValuePair(tag, val));
     }
     
     public void expectStanza(String stanza, String tag, String val) {
         if (stanzas.get(stanza) == null)
-            stanzas.put(stanza, new HashSet<TagVal>());
+            stanzas.put(stanza, new HashSet<TagValuePair>());
 
-        stanzas.get(stanza).add(new TagVal(tag, val));
+        stanzas.get(stanza).add(new TagValuePair(tag, val));
     }
 
     String currStanza = null;
@@ -64,7 +63,7 @@ public class SyntaxChecker implements OBOSyntaxListener {
 
     @Override
     public void onTagValue(String tag, String value) {
-        Set<TagVal> toRemove = header;
+        Set<TagValuePair> toRemove = header;
         
         if (currStanza != null)
             toRemove = stanzas.get(currStanza);
@@ -72,7 +71,7 @@ public class SyntaxChecker implements OBOSyntaxListener {
         if (toRemove == null)
             return;
 
-        TagVal tagval = new TagVal(tag, value);
+        TagValuePair tagval = new TagValuePair(tag, value);
         if (!toRemove.remove(tagval))
             System.err.println("Unexpected to parse: " + tagval);
     }
@@ -92,12 +91,12 @@ public class SyntaxChecker implements OBOSyntaxListener {
         StringBuilder sb = new StringBuilder();
         if (header.isEmpty())
             sb.append("Header ");
-            for (TagVal tv : header)
+            for (TagValuePair tv : header)
                 sb.append(" ").append(tv);
 
         for (String stanza : stanzas.keySet()) {
             sb.append("; [").append(stanza).append("]");
-            for (TagVal tv : stanzas.get(stanza))
+            for (TagValuePair tv : stanzas.get(stanza))
                 sb.append(" ").append(tv);
         }
         

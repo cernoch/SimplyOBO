@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package cz.cvut.felk.ida.simplyobo.syntax;
+package cz.cvut.felk.ida.simplyobo.parser;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -27,11 +27,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Tests {@link OBOSyntaxParser} by providing example OBO files.
+ * Tests {@link LineByLineParser} by providing example OBO files.
  * 
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public class OBOSyntaxParserTest {
+public class LineByLineParserTest {
 
     @Test
     public void testParse1() throws Exception {
@@ -56,7 +56,7 @@ public class OBOSyntaxParserTest {
         sc.expectStanza("Term", "relationship", "part_of GO:0000008 ");
         sc.expectStanza("Term", "relationship", "regulates GO:0000008 ");
         
-        OBOSyntaxParser instance = new OBOSyntaxParser(sc);
+        LineByLineParser instance = new LineByLineParser(sc);
         instance.parse(oboFile);
         if (!sc.isEmpty()) fail("Non-parsed items: " + sc.toString());
     }
@@ -70,7 +70,7 @@ public class OBOSyntaxParserTest {
         SyntaxChecker sc = new SyntaxChecker();
         sc.expectHeader("date", "14:07:2009 13:33");
         
-        OBOSyntaxParser instance = new OBOSyntaxParser(sc);
+        LineByLineParser instance = new LineByLineParser(sc);
         instance.parse(oboFile);
         if (!sc.isEmpty()) fail("Non-parsed items: " + sc.toString());
     }
@@ -85,7 +85,7 @@ public class OBOSyntaxParserTest {
         sc.expectHeader("unusual:tag:with:special:chars\\x",
                 "and its value\\!");
         
-        OBOSyntaxParser instance = new OBOSyntaxParser(sc);
+        LineByLineParser instance = new LineByLineParser(sc);
         instance.parse(oboFile);
         if (!sc.isEmpty()) fail("Non-parsed items: " + sc.toString());
     }    

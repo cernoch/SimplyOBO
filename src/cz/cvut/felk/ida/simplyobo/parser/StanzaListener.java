@@ -19,58 +19,30 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package cz.cvut.felk.ida.simplyobo.stanza;
+package cz.cvut.felk.ida.simplyobo.parser;
+
+import java.util.List;
 
 /**
- * Encapsulates a tag-value pair from an OBO file.
+ * Callback for stanza-buffered reading of an OBO file.
  *
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public class TagVal {
+public interface StanzaListener {
     
-    String tag;
-    String val;
-
-    public TagVal(String tag, String val) {
-        this.tag = tag;
-        this.val = val;
-    }
-
-    public String tag() {
-        return tag;
-    }
-
-    public String val() {
-        return val;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-
-        final TagVal other = (TagVal) obj;
-        if (this.tag == null ? other.tag != null
-                             : !this.tag.equals(other.tag))
-            return false;
-
-        if (this.val == null ? other.val != null
-                             : !this.val.equals(other.val))
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + (this.tag != null ? this.tag.hashCode() : 0);
-        hash = 53 * hash + (this.val != null ? this.val.hashCode() : 0);
-        return hash;
-    }
+    /**
+     * Called when the parser reads the whole header of the OBO file.
+     * 
+     * @param header list of tag-value pairs in the header
+     */
+    public void onHeader(List<TagValuePair> header);
     
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+    /**
+     * Called when the parser reads the whole stanza.
+     * 
+     * @param name stanza-name (appears within square brackets)
+     * @param tagVals list of tag-value pairs associated with the stanza
+     */
+    public void onStanza(String name, List<TagValuePair> tagVals);
+    
 }
