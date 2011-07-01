@@ -31,7 +31,7 @@ import java.util.Set;
  * Maps keys to set of values.
  * 
  * <p>Works just like a {@link Map} with following differences:<ul>
- * <li>{@link #put(Object,Set)} and {@link #putAll(Map)} are not allowed and
+ * <li>{@link #put(Object,Object)} and {@link #putAll(Map)} are not allowed and
  * throw {@link UnsupportedOperationException}.
  * Use {@link #add(Object,Object)} instead.</li>
  * <li>{@link #remove(Object)} removes all mappings for the given key.</li>

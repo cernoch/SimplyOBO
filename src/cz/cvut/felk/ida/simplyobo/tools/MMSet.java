@@ -30,7 +30,7 @@ import java.util.Map;
  * 
  * <p>Works just like a {@link Map} with following differences:
  * <ul>
- * <li>{@link #put(Object,MSet)} and {@link #putAll(Map)} are not allowed and
+ * <li>{@link #put(Object,Object)} and {@link #putAll(Map)} are not allowed and
  * throw {@link UnsupportedOperationException}.
  * Use {@link #add(Object,Object,Object)} instead.</li>
  * <li>{@link #remove(Object)} removes mappings for the given primary key.</li>

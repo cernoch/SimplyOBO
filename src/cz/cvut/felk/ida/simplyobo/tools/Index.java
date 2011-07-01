@@ -43,7 +43,7 @@ public class Index<I, T extends WithID<I>> {
      * Adds a new object into the index.
      * 
      * @param o the object to be inserted
-     * @return previously stored object for the same ID or {@link null}
+     * @return previously stored object for the same ID or {@code null}
      * if there was no such object.
      */
     public T put(T o) {
@@ -55,7 +55,7 @@ public class Index<I, T extends WithID<I>> {
      * Retrieves the object with the given ID.
      * 
      * @param id ID of the object to find
-     * @return the object with given ID or {@link null}
+     * @return the object with given ID or {@code null}
      * if there is no such object
      */
     public T get(I id) {
