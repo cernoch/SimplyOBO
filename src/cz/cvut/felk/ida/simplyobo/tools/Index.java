@@ -62,6 +62,16 @@ public class Index<I, T extends WithID<I>> {
         return index.get(id);
     }
     
+    /**
+     * Indicates whether the object with given ID is stored in the database.
+     * 
+     * @param id ID of the queried object
+     * @return {@code true} if found, {@code false} if not found
+     */
+    public boolean contains(I id) {
+        return index.containsKey(id);
+    }
+    
     private Set<T> cache = null;
     
     /**
