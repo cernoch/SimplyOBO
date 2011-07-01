@@ -84,7 +84,7 @@ public class Ontology implements StanzaListener {
             }
 
             if ("default-namespace".equals(tvp.tag())) {
-                L.log(WARNING, "Setting default namespace: " + tvp.val());
+                L.log(FINE, "Setting default namespace: " + tvp.val());
                 try {
                     defNS = Namespace.valueOf(tvp.val());
                     
@@ -350,13 +350,11 @@ public class Ontology implements StanzaListener {
             Set<? extends Term> isA = subTerms.get(this);
             return isA == null ? Collections.EMPTY_SET : isA;
         }
-        
+
         @Override
-        @SuppressWarnings("unchecked")
-        public Map<? extends Type, ? extends Set<? extends Term>> relations() {
-            Map<? extends Type, ? extends Set<? extends Term>> map
-                    = svoIdx.getVO(this);
-            return map == null ? Collections.EMPTY_MAP : map;
+        public Set<? extends Term> relation(Type type) {
+            TypeImpl typeImpl = types.get(type.id());
+            return svoIdx.getO(this, typeImpl);
         }
         
         @Override

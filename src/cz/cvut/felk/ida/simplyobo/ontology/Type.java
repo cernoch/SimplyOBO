@@ -30,14 +30,14 @@ import java.util.Set;
  */
 public interface Type {
 
-    String id();
+    public String id();
 
-    Set<? extends Type> isA();
+    public Set<? extends Type> isA();
 
-    String name();
+    public String name();
 
-    boolean transitive();
+    public boolean transitive();
 
-    Set<? extends Type> transitiveOver();
+    public Set<? extends Type> transitiveOver();
     
 }

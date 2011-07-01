@@ -33,7 +33,11 @@ import static org.junit.Assert.*;
 
 public class OntologyTest {
 
-    private Ontology onto = new Ontology();
+    protected Ontology onto;
+
+    public OntologyTest() {
+        onto = new Ontology();
+    }
     
     @Before
     public void setUp() throws IOException {
@@ -88,8 +92,7 @@ public class OntologyTest {
         assertNotNull(v);
         assertNotNull(o);
         
-        assertTrue(s.relations().containsKey(v));
-        assertTrue(s.relations().get(v).contains(o));
+        assertTrue(s.relation(v).contains(o));
     }
     
     @Test

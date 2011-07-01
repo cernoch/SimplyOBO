@@ -21,7 +21,6 @@
  */
 package cz.cvut.felk.ida.simplyobo.ontology;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,14 +30,14 @@ import java.util.Set;
  */
 public interface Term {
 
-    Integer id();
+    public Integer id();
 
-    Set<? extends Term> isA();
+    public Set<? extends Term> isA();
 
-    String name();
+    public String name();
 
-    Namespace namespace();
+    public Namespace namespace();
 
-    Map<? extends Type, ? extends Set<? extends Term>> relations();
-    
+    public Set<? extends Term> relation(Type type);
+
 }
