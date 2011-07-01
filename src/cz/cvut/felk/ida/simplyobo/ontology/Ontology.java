@@ -21,6 +21,8 @@
  */
 package cz.cvut.felk.ida.simplyobo.ontology;
 
+import cz.cvut.felk.ida.simplyobo.parser.LineByLineParser;
+import cz.cvut.felk.ida.simplyobo.parser.StanzaCollector;
 import cz.cvut.felk.ida.simplyobo.parser.StanzaListener;
 import cz.cvut.felk.ida.simplyobo.parser.SyntaxError;
 import cz.cvut.felk.ida.simplyobo.parser.TagValuePair;
@@ -30,6 +32,8 @@ import cz.cvut.felk.ida.simplyobo.tools.Index;
 import cz.cvut.felk.ida.simplyobo.tools.MSet;
 import cz.cvut.felk.ida.simplyobo.tools.SVOidx;
 import cz.cvut.felk.ida.simplyobo.tools.WithID;
+import java.io.IOException;
+import java.io.Reader;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.HashSet;
@@ -44,6 +48,12 @@ import java.util.Set;
  */
 public class Ontology implements StanzaListener {
 
+    public Ontology() {}
+
+    public Ontology(Reader r) throws IOException {
+        new LineByLineParser(new StanzaCollector(this)).parse(r);
+    }
+    
     @Override
     public void onHeader(List<TagValuePair> header) {
         throw new UnsupportedOperationException("Not supported yet.");
