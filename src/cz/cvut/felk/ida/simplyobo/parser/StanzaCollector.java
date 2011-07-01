@@ -56,7 +56,7 @@ public class StanzaCollector implements LineByLineListener, EndOfParsingAware {
     @Override
     public void onStanza(String stanza) {
         
-        if (stanza == null)
+        if (this.stanza == null)
             sink.onHeader(tagVals);
         else 
             sink.onStanza(this.stanza, tagVals);
