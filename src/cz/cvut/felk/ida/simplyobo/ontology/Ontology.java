@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class Ontology implements StanzaListener {
         }
         
         if ("Typedef".equals(name)) {
-            
+            createTypedef(tagVals);
             return;
         }
     }
@@ -258,13 +259,18 @@ public class Ontology implements StanzaListener {
         }
         
         @Override
+        @SuppressWarnings("unchecked")
         public Set<? extends Term> isA () {
-            return subTerms.get(this);
+            Set<? extends Term> isA = subTerms.get(this);
+            return isA == null ? Collections.EMPTY_SET : isA;
         }
         
         @Override
+        @SuppressWarnings("unchecked")
         public Map<? extends Type, ? extends Set<? extends Term>> relations() {
-            return svoIdx.getVO(this);
+            Map<? extends Type, ? extends Set<? extends Term>> map
+                    = svoIdx.getVO(this);
+            return map == null ? Collections.EMPTY_MAP : map;
         }
         
         @Override
@@ -301,8 +307,10 @@ public class Ontology implements StanzaListener {
         }
         
         @Override
+        @SuppressWarnings("unchecked")
         public Set<? extends Type> isA() {
-            return subTypes.get(this);
+            Set<? extends Type> isA = subTypes.get(this);
+            return isA == null ? Collections.EMPTY_SET : isA;
         }
         
         @Override

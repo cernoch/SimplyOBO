@@ -58,7 +58,7 @@ public class OntologyTest {
     }
     
     @Test
-    public void testISA() {
+    public void testTermISA() {
         Term t = onto.findTerm(1);
         assertNotNull(t);
         assertTrue(t.isA().contains(onto.findTerm(48308)));
@@ -77,5 +77,16 @@ public class OntologyTest {
         
         assertTrue(s.relations().containsKey(v));
         assertTrue(s.relations().get(v).contains(o));
+    }
+    
+    @Test
+    public void testTypeISA() {
+        Type reg = onto.findType("regulates");
+        Type n_r = onto.findType("negatively_regulates");
+        
+        assertNotNull(reg);
+        assertNotNull(n_r);
+        
+        assertTrue(n_r.isA().contains(reg));
     }
 }
