@@ -124,7 +124,7 @@ public class LineByLineParser {
                 String a; // to append
                 while (l.endsWith("\\") && (a = b.readLine()) != null) {
                     l = l.substring(0,l.length()-1);
-                    l += removeComment(a);
+                    l+= removeComment(a);
                 }
             }
             
@@ -140,5 +140,8 @@ public class LineByLineParser {
                 continue;
             }
         }
+        
+        if (sink instanceof EndOfParsingAware)
+            ((EndOfParsingAware) sink).parsingEnded();
     }
 }
