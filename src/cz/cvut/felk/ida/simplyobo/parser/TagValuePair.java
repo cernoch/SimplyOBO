@@ -71,6 +71,6 @@ public class TagValuePair {
     
     @Override
     public String toString() {
-        return super.toString();
+        return tag() + ": " + val();
     }
 }
