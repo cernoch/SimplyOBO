@@ -57,6 +57,7 @@ public abstract class WithID<I> {
     public final boolean equals(Object obj) {
         if (obj == null || getClass() != obj.getClass()) return false;
         
+        @SuppressWarnings(value="unchecked")
         final WithID<I> other = (WithID<I>) obj;
         
         if (this.id() != other.id() && (this.id() == null
