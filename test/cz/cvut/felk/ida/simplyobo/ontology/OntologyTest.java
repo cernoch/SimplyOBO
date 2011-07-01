@@ -58,6 +58,19 @@ public class OntologyTest {
     }
     
     @Test
+    public void testTransitiveOver() {
+        Type regulates = onto.findType("regulates");
+        Type partOf = onto.findType("part_of");
+        assertTrue(regulates.transitiveOver().contains(partOf));
+    }
+    
+    @Test
+    public void testTransitive() {
+        assertTrue( onto.findType("has_part").transitive());
+        assertFalse(onto.findType("occurs_in").transitive());
+    }
+    
+    @Test
     public void testTermISA() {
         Term t = onto.findTerm(1);
         assertNotNull(t);

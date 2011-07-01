@@ -56,9 +56,7 @@ public class Ontology implements StanzaListener {
     }
     
     @Override
-    public void onHeader(List<TagValuePair> header) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public void onHeader(List<TagValuePair> header) {}
 
     @Override
     public void onStanza(String name, List<TagValuePair> tagVals) {
@@ -150,7 +148,8 @@ public class Ontology implements StanzaListener {
         }
     }
     
-    SVOidx<TermImpl,TypeImpl,TermImpl> svoIdx = new SVOidx<TermImpl,TypeImpl,TermImpl>();
+    protected SVOidx<TermImpl,TypeImpl,TermImpl> svoIdx
+        = new SVOidx<TermImpl,TypeImpl,TermImpl>();
     
     private void createTypedef(List<TagValuePair> tagVals) {
         
@@ -182,7 +181,7 @@ public class Ontology implements StanzaListener {
             // Create the term
             type = types.get(id);
             type.name = name;
-            type.transitive = transitive;
+            type.trans = transitive;
         }
         
         // Read relations
@@ -196,8 +195,8 @@ public class Ontology implements StanzaListener {
             }
             
             if ("transitive_over".equals(tvp.tag())) {
-                TypeImpl transOverType = types.get(tvp.val());
-                type.transitiveOver.add(transOverType);
+                TypeImpl transOverType = types.get(tvp.val().trim());
+                type.trOver.add(transOverType);
                 continue;
             }
         }
@@ -210,17 +209,17 @@ public class Ontology implements StanzaListener {
         throw new IllegalArgumentException("Not a GO identifier");
     }
     
-    private final Index<Integer,TermImpl> terms
-           = new BIndex<Integer,TermImpl>(new TermBuilder());
+    protected final Index<Integer,TermImpl> terms
+             = new BIndex<Integer,TermImpl>(new TermBuilder());
     
-    private final Index<String,TypeImpl> types
-           = new BIndex<String,TypeImpl>(new TypeBuilder());
+    protected final Index<String,TypeImpl> types
+             = new BIndex<String,TypeImpl>(new TypeBuilder());
 
-    private final MSet<TermImpl,TermImpl> subTerms = new MSet<TermImpl,TermImpl>();
-    private final MSet<TermImpl,TermImpl> supTerms = new MSet<TermImpl,TermImpl>();
+    protected final MSet<TermImpl,TermImpl> subTerms = new MSet<TermImpl,TermImpl>();
+    protected final MSet<TermImpl,TermImpl> supTerms = new MSet<TermImpl,TermImpl>();
 
-    private final MSet<TypeImpl,TypeImpl> subTypes = new MSet<TypeImpl,TypeImpl>();
-    private final MSet<TypeImpl,TypeImpl> supTypes = new MSet<TypeImpl,TypeImpl>();
+    protected final MSet<TypeImpl,TypeImpl> subTypes = new MSet<TypeImpl,TypeImpl>();
+    protected final MSet<TypeImpl,TypeImpl> supTypes = new MSet<TypeImpl,TypeImpl>();
     
     private static final NumberFormat ID_FMT;
     static {
@@ -228,7 +227,7 @@ public class Ontology implements StanzaListener {
         ID_FMT.setMinimumIntegerDigits(7);
     }
     
-    private class TermImpl extends WithID<Integer> implements Term {
+    protected class TermImpl extends WithID<Integer> implements Term {
         
         private final Integer id;
         
@@ -279,15 +278,15 @@ public class Ontology implements StanzaListener {
         }
     }
 
-    private class TypeImpl extends WithID<String> implements Type {
+    protected class TypeImpl extends WithID<String> implements Type {
 
-        private final String id;
+        protected final String id;
         
-        private String name = null;
+        protected String name = null;
 
-        private boolean transitive = false;
+        protected boolean trans = false;
         
-        private final Set<TypeImpl> transitiveOver = new HashSet<TypeImpl>();
+        protected final Set<TypeImpl> trOver = new HashSet<TypeImpl>();
 
         public TypeImpl(String id) {
             if (id == null)
@@ -315,12 +314,12 @@ public class Ontology implements StanzaListener {
         
         @Override
         public boolean transitive() {
-            return transitive;
+            return trans;
         }
         
         @Override
         public Set<? extends Type> transitiveOver() {
-            return transitiveOver;
+            return trOver;
         }
     }
 

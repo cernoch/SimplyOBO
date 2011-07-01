@@ -21,6 +21,7 @@
  */
 package cz.cvut.felk.ida.simplyobo.tools;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,27 +49,89 @@ public class SVOidx<S,V,O> {
         VOS.add(v,o,s);
     }
 
+    public Set<S> allS() {
+        return Collections.unmodifiableSet(SVO.keySet());
+    }
+    
+    public Set<V> allV() {
+        return Collections.unmodifiableSet(VOS.keySet());
+    }
+    
+    public Set<O> allO() {
+        return Collections.unmodifiableSet(OVS.keySet());
+    }
+    
     public Set<S> getS(V v, O o) {
-        return VOS.get(v).get(o);
+        MSet<O,S> x = VOS.get(v);
+        if (x == null) return Collections.EMPTY_SET;
+        
+        Set<S> y = x.get(o);
+        if (y == null) return Collections.EMPTY_SET;
+                
+        return Collections.unmodifiableSet(y);
     }
     
     public Set<O> getO(S s, V v) {
-        return SVO.get(s).get(v);
+        MSet<V,O> x = SVO.get(s);
+        if (x == null) return Collections.EMPTY_SET;
+        
+        Set<O> y = x.get(v);
+        if (y == null) return Collections.EMPTY_SET;
+                
+        return Collections.unmodifiableSet(y);
+    }
+        
+    public Set<V> getVbyS(S s) {
+        MSet<V,O> x = SVO.get(s);
+        if (x == null) return Collections.EMPTY_SET;                        
+        return Collections.unmodifiableSet(x.keySet());
     }
     
+    public Set<V> getVbyO(O o) {
+        MSet<V,S> x = OVS.get(o);
+        if (x == null) return Collections.EMPTY_SET;                        
+        return Collections.unmodifiableSet(x.keySet());
+    }
+    
+    public Set<S> getSbyV(V v) {
+        MSet<S,O> x = VSO.get(v);
+        if (x == null) return Collections.EMPTY_SET;                        
+        return Collections.unmodifiableSet(x.keySet());
+    }
+    
+    public Set<O> getObyV(V v) {
+        MSet<O,S> x = VOS.get(v);
+        if (x == null) return Collections.EMPTY_SET;                        
+        return Collections.unmodifiableSet(x.keySet());
+    }
+    
+    @Deprecated
     public Map<V,Set<O>> getVO(S s) {
         return SVO.get(s);
     }
 
+    @Deprecated
     public Map<V,Set<S>> getVS(O o) {
         return OVS.get(o);
     }
 
+    @Deprecated
     public Map<S,Set<O>> getSO(V v) {
         return VSO.get(v);
     }
 
+    @Deprecated
     public Map<O,Set<S>> getOS(V v) {
         return VOS.get(v);
+    }
+    
+    public boolean contains(S s, V v, O o) {
+        MSet<V,O> x = SVO.get(s);
+        if (x == null) return false;
+        
+        Set<O> y = x.get(v);     
+        if (y == null) return false;
+                
+        return y.contains(o);
     }
 }
