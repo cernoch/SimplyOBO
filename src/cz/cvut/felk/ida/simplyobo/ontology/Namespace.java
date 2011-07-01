@@ -27,6 +27,7 @@ package cz.cvut.felk.ida.simplyobo.ontology;
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
 public enum Namespace {
+    gene_ontology,
     biological_process, 
     cellular_component,
     molecular_function;
