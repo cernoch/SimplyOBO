@@ -37,7 +37,7 @@ import java.util.List;
  * 
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public class StanzaCollector implements LineByLineListener, EndOfParsingAware {
+public class StanzaCollector implements LineByLineListener, DocBegEndAware {
 
     private final StanzaListener sink;
 
@@ -71,10 +71,16 @@ public class StanzaCollector implements LineByLineListener, EndOfParsingAware {
     }
 
     @Override
+    public void parsingBegun() {
+        if (sink instanceof DocBegEndAware)
+            ((DocBegEndAware) sink).parsingBegun();
+    }
+
+    @Override
     public void parsingEnded() {
         onStanza(null);
         
-        if (sink instanceof EndOfParsingAware)
-            ((EndOfParsingAware) sink).parsingEnded();
+        if (sink instanceof DocBegEndAware)
+            ((DocBegEndAware) sink).parsingEnded();
     }
 }

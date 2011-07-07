@@ -26,10 +26,15 @@ package cz.cvut.felk.ida.simplyobo.parser;
  *
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public interface EndOfParsingAware {
+public interface DocBegEndAware {
     
     /**
-     * Parser finished parsing a file.
+     * Called when parsing of a document started.
+     */
+    public void parsingBegun();
+    
+    /**
+     * Called when parsing of a document ended.
      */
     public void parsingEnded();
     

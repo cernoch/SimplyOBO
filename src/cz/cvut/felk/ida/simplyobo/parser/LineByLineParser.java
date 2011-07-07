@@ -110,6 +110,9 @@ public class LineByLineParser {
         else
             b = new BufferedReader(oboFile);
 
+        if (sink instanceof DocBegEndAware)
+            ((DocBegEndAware) sink).parsingBegun();
+
         String l; // Line
         while ((l = b.readLine()) != null) {
             l = removeComment(l);
@@ -141,7 +144,7 @@ public class LineByLineParser {
             }
         }
         
-        if (sink instanceof EndOfParsingAware)
-            ((EndOfParsingAware) sink).parsingEnded();
+        if (sink instanceof DocBegEndAware)
+            ((DocBegEndAware) sink).parsingEnded();
     }
 }

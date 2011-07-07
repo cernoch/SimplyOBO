@@ -21,7 +21,7 @@
  */
 package cz.cvut.felk.ida.simplyobo.ontology;
 
-import cz.cvut.felk.ida.simplyobo.parser.EndOfParsingAware;
+import cz.cvut.felk.ida.simplyobo.parser.DocBegEndAware;
 import cz.cvut.felk.ida.simplyobo.tools.SetUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +38,18 @@ import java.util.List;
  * 
  * @author Radomír Černoch (radomir.cernoch at gmail.com)
  */
-public class Reasoner extends Ontology implements EndOfParsingAware {
+public class Reasoner extends Ontology implements DocBegEndAware {
 
     /**
-     * Starts the reasoning.
+     * Noting happens; empty method.
+     */
+    @Override
+    public void parsingBegun() {
+
+    }
+
+    /**
+     * Starts the reasoner on finishing a document.
      */
     @Override
     public void parsingEnded() {
@@ -49,7 +57,7 @@ public class Reasoner extends Ontology implements EndOfParsingAware {
     }
     
     /**
-     * Infers transitive axioms
+     * Infers transitive axioms.
      */
     private void inferRelationTransitiveClosure() {
         
